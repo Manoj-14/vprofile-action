@@ -44,3 +44,22 @@ jobs:
             #   timeout-minutes: 5
             #   env:
             #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    BUILD_AND_PUBLISH:
+      needs: Testing #it need to mention if not both jobs will run in parallelly
+      runs-on: ubuntu-latest
+      steps:
+        - name: Code checkout
+          uses: actions/checkout@v4
+
+        - name: BUild and upload to ECR
+          uses: appleboy/docker-ecr-action@master #https://github.com/marketplace/actions/docker-ecr
+          with:
+            access_key: ${{ secrets.AWS_ACCESS_KEY_ID}}
+            secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+            registry: ${{ secrets.REGISTRY }}
+            repo: ${{env.ECR_REPOSITORY}}
+            region: ${{env.AWS_REGION}}
+            tags: latest, ${{github.run_number}} # github.run_number -> will give the build id (can give many tags by , as delimitor)
+            daemon_off: false
+            dockerfile: ./Dockerfile
+            context: ./
