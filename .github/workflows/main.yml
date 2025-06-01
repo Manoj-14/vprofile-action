@@ -86,7 +86,7 @@ jobs:
           run: cat ~/.kube/config
 
         - name: Login to ECR #for pushing the image
-          run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password) #these cmd is to login to ECR. AWS usernmae is default and ECR don't give the passwrd insted if you already configured aws then you can get password by 'aws ecr get-login-password' cmd
+          run: kubectl create secret docker-registry regcred1 --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password) #these cmd is to login to ECR. AWS usernmae is default and ECR don't give the passwrd insted if you already configured aws then you can get password by 'aws ecr get-login-password' cmd
 
         - name: Deploy Helm 
           uses: bitovi/github-actions-deploy-eks-helm@v1.2.12 #https://github.com/marketplace/actions/deploy-helm-chart-to-aws-eks-cluster
