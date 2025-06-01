@@ -80,7 +80,6 @@ jobs:
         
         - name: Get Kube Config file
           id: getConfig
-          if: steps.apply.outcome == 'success'
           run: aws eks update-kubeconfig --region ${{env.AWS_REGION}} --name ${{env.EKS_CLUSTER}} #get the kubeconfig file from eks
 
         - name: Print congif file
